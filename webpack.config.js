@@ -54,4 +54,6 @@ const config = {
   ]
 };
 
-module.exports = config;
+module.exports = (env = {}) => {
+  return config;
+};
