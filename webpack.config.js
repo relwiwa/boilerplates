@@ -1,16 +1,13 @@
-// Webpack setup based on Stephen Grider's Udemy Webpack 2 course
-
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
-var packageJson = require('./package');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const VENDOR_LIBS = ['react', 'react-dom'];
 
 const config = {
   entry: {
-    bundle: './src/index.js',
+    bundle: './src/index.jsx',
     vendor: VENDOR_LIBS
   },
   output: {
@@ -18,11 +15,20 @@ const config = {
     filename: '[name].[chunkhash].js',
     publicPath: './'
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
     rules: [
       {
+        use: 'eslint-loader',
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        enforce: 'pre',
+      },
+      {
         use: 'babel-loader',
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/
       },
       {
@@ -44,6 +50,13 @@ const config = {
     ]
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        eslint: {
+          cache: true,
+        }
+      }
+    }),
     new ExtractTextPlugin({ filename: '[name].[chunkhash].css', allChunks: true }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
@@ -54,6 +67,4 @@ const config = {
   ]
 };
 
-module.exports = (env = {}) => {
-  return config;
-};
+module.exports = () => config;
