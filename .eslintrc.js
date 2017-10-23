@@ -6,7 +6,9 @@ module.exports = {
     node: true,
   },
   extends: 'airbnb',
+  parser: 'babel-eslint',
   parserOptions: {
+    allowImportExportEverywhere: true,
     sourceType: 'module',
   },
   plugins: [
