@@ -47,6 +47,9 @@ const webpackConfigCommon = webpackMerge([
         resource.indexOf('node_modules') >= 0 &&
         resource.match(/\.jsx?$/)
       ),
+    }, {
+      name: 'manifest',
+      minChunks: Infinity,
     },
   ]),
 ]);
