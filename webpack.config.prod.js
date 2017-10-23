@@ -9,12 +9,13 @@ const webpackConfigProd = webpackMerge([
   webpackParts.extractSCSS({
     use: ['css-loader', webpackParts.autoprefixCSS, 'sass-loader'],
   }),
-  webpackParts.optimizeCSS(),
+  webpackParts.minifyCSS(),
   webpackParts.loadImages({
     options: {
       limit: 150000,
     },
   }),
+  webpackParts.minifyJavascript(),
 ]);
 
 module.exports = webpackConfigProd;

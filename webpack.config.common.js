@@ -36,8 +36,8 @@ const webpackConfigCommon = webpackMerge([
       })
     ]
   },
-  webpackParts.lintJavaScript({ include: PATHS.src }),
-  webpackParts.loadJavaScript({ exclude: /node_modules/ }),
+  webpackParts.lintJavascript({ include: PATHS.src }),
+  webpackParts.loadJavascript({ exclude: /node_modules/ }),
   // instead of an entry property for vendor bundle, they are extracted automatically here
   webpackParts.extractBundleChunks([
     {

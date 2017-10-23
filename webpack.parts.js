@@ -1,5 +1,7 @@
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
+const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports.autoprefixCSS = ({
@@ -50,7 +52,7 @@ module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
   };
 };
 
-module.exports.lintJavaScript = ({ include, exclude, options } = {}) => ({
+module.exports.lintJavascript = ({ include, exclude, options } = {}) => ({
   module: {
     rules: [
       {
@@ -84,7 +86,7 @@ module.exports.loadImages = ({ include, exclude, options } = {}) => ({
   },
 });
 
-module.exports.loadJavaScript = ({ include, exclude } = {}) => ({
+module.exports.loadJavascript = ({ include, exclude } = {}) => ({
   module: {
     rules: [
       {
@@ -96,13 +98,31 @@ module.exports.loadJavaScript = ({ include, exclude } = {}) => ({
   },
 });
 
-module.exports.optimizeCSS = () => ({
+module.exports.minifyCSS = () => ({
   plugins: [
-    new OptimizeCssAssetsPlugin({
+    /*  - optimize-css-assets-webpack-plugin is a plugin based option that applies
+          a chosen minifier on CSS assets. Using ExtractTextPlugin can lead to duplicated
+          CSS given it only merges text chunks. OptimizeCSSAssetsPlugin avoids this
+          problem by operating on the generated result and thus can lead to a better
+          result.
+        - it removes duplicate css rules */
+    new OptimizeCSSAssetsPlugin({
       assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano'),
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+      cssProcessor: cssnano,
+      cssProcessorOptions: {
+        discardComments: { removeAll: true },
+        safe: true,
+      },
       canPrint: true
     }),                
+  ],
+});
+
+/*  - Minification is enabled with -p or --optimize-minimize options, but then,
+      UglifyJsPlugin is usedcannot yet handle ES6)
+    - It cannot yet handle ES6, so BabelMinifyWebpackPlugin is used instead */
+module.exports.minifyJavascript = () => ({
+  plugins: [
+    new BabelMinifyPlugin(),
   ],
 });
