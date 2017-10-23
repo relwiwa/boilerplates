@@ -5,10 +5,9 @@ const webpackParts = require('./webpack.parts');
 const webpackConfigDev = webpackMerge([
   {
     output: {
-      publicPath: '/',
-      sourceMapFilename: '[name].[chunkhash].map',
+      publicPath: '/'
     },
-    devtool: '#eval-cheap-module-source-map',
+    devtool: 'cheap-module-eval-source-map', // inline, eval-based sourcemap    
   },
   webpackParts.devServer(),
   webpackParts.extractSCSS({
