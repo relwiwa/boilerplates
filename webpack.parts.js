@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports.autoprefixCSS = ({
   loader: 'postcss-loader',
@@ -18,6 +19,12 @@ module.exports.devServer = () => ({
       warnings: true,
     },
   },
+});
+
+module.exports.extractBundleChunks = (bundles) => ({
+  plugins: bundles.map((bundle) => (
+    new webpack.optimize.CommonsChunkPlugin(bundle)
+  )),
 });
 
 module.exports.extractSCSS = ({ include, exclude, use } = {}) => {

@@ -10,13 +10,10 @@ const PATHS = {
   build: path.join(__dirname, 'build'),
 };
 
-const VENDOR_LIBS = ['react', 'react-dom'];
-
 const webpackConfigCommon = webpackMerge([
   {
     entry: {
-      bundle: PATHS.src,
-      vendor: VENDOR_LIBS,
+      app: PATHS.src,
     },
     output: {
       path: PATHS.build,
@@ -34,9 +31,6 @@ const webpackConfigCommon = webpackMerge([
           }
         }
       }),
-      new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'manifest']
-      }),
       new HtmlWebpackPlugin({
         template: './index.html'
       })
@@ -44,6 +38,17 @@ const webpackConfigCommon = webpackMerge([
   },
   webpackParts.lintJavaScript({ include: PATHS.src }),
   webpackParts.loadJavaScript({ exclude: /node_modules/ }),
+  // instead of an entry property for vendor bundle, they are extracted automatically here
+  webpackParts.extractBundleChunks([
+    {
+      name: 'vendor',
+      minChunks: ({ resource }) => (
+        resource &&
+        resource.indexOf('node_modules') >= 0 &&
+        resource.match(/\.jsx?$/)
+      ),
+    },
+  ]),
 ]);
 
 module.exports = webpackConfigCommon;
