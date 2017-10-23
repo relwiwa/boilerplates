@@ -31,7 +31,7 @@ module.exports.extractBundleChunks = (bundles) => ({
 
 module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
   const plugin = new ExtractTextPlugin({
-    filename: '[name].[chunkhash].css',
+    filename: '[name].[contenthash].css',
     allChunks: true
   });
 
