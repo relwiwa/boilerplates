@@ -1,4 +1,14 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+module.exports.autoprefixCSS = ({
+  loader: 'postcss-loader',
+  options: {
+    plugins: () => ([
+      require('autoprefixer'),
+    ]),
+  }
+});
 
 module.exports.devServer = () => ({
   devServer: {
@@ -21,8 +31,10 @@ module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
       rules: [
         {
           test: /\.s?css$/,
+          include,
+          exclude,
           use: plugin.extract({
-            use: ['css-loader', 'sass-loader']
+            use,
           }),
         },
       ],
@@ -63,4 +75,15 @@ module.exports.loadImages = ({ include, exclude, options } = {}) => ({
       },
     ], 
   },
+});
+
+module.exports.optimizeCSS = () => ({
+  plugins: [
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
+    }),                
+  ],
 });

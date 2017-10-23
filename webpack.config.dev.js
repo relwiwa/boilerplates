@@ -11,6 +11,9 @@ const webpackConfigDev = webpackMerge([
     devtool: '#eval-cheap-module-source-map',
   },
   webpackParts.devServer(),
+  webpackParts.extractSCSS({
+    use: ['css-loader', 'sass-loader'],
+  }),
   webpackParts.loadImages(),
 ]);
 

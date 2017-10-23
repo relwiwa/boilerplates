@@ -52,7 +52,6 @@ const webpackConfigCommon = webpackMerge([
     ]
   },
   webpackParts.lintJavaScript({ include: PATHS.src }),
-  webpackParts.extractSCSS(),
 ]);
 
 module.exports = webpackConfigCommon;
