@@ -77,6 +77,18 @@ module.exports.loadImages = ({ include, exclude, options } = {}) => ({
   },
 });
 
+module.exports.loadJavaScript = ({ include, exclude } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        exclude,
+      },
+    ],
+  },
+});
+
 module.exports.optimizeCSS = () => ({
   plugins: [
     new OptimizeCssAssetsPlugin({

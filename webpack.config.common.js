@@ -26,15 +26,6 @@ const webpackConfigCommon = webpackMerge([
     resolve: {
       extensions: ['.js', '.jsx'],
     },
-    module: {
-      rules: [
-        {
-          test: /\.jsx?$/,
-          use: 'babel-loader',
-          exclude: /node_modules/
-        },
-      ],
-    },
     plugins: [
       new webpack.LoaderOptionsPlugin({
         options: {
@@ -52,6 +43,7 @@ const webpackConfigCommon = webpackMerge([
     ]
   },
   webpackParts.lintJavaScript({ include: PATHS.src }),
+  webpackParts.loadJavaScript({ exclude: /node_modules/ }),
 ]);
 
 module.exports = webpackConfigCommon;
