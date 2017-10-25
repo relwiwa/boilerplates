@@ -28,13 +28,13 @@ const webpackConfigCommon = webpackMerge([
         options: {
           eslint: {
             cache: true,
-          }
-        }
+          },
+        },
       }),
       new HtmlWebpackPlugin({
         template: './index.html'
-      })
-    ]
+      }),
+    ],
   },
   webpackParts.lintJavascript({ include: PATHS.src }),
   webpackParts.loadJavascript({ exclude: /node_modules/ }),

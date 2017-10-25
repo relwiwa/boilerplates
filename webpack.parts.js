@@ -119,10 +119,19 @@ module.exports.minifyCSS = () => ({
 });
 
 /*  - Minification is enabled with -p or --optimize-minimize options, but then,
-      UglifyJsPlugin is usedcannot yet handle ES6)
+      UglifyJsPlugin is used, that cannot yet handle ES6)
     - It cannot yet handle ES6, so BabelMinifyWebpackPlugin is used instead */
 module.exports.minifyJavascript = () => ({
   plugins: [
     new BabelMinifyPlugin(),
   ],
+});
+
+module.exports.setGlobalConstants = (globalConstants = {}) => ({
+  plugins: [
+    new webpack.DefinePlugin(
+      globalConstants
+    ),
+  ],
+
 });
