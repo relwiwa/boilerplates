@@ -33,6 +33,10 @@ module.exports.extractBundleChunks = bundles => ({
 module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
   const plugin = new ExtractTextPlugin({
     filename: '[name].[contenthash].css',
+    /*  { allChunks: true } is necessary for style files of lazy loaded
+        components to be available properly:
+        https://medium.com/@sejoker/code-splitting-with-webpack-on-the-
+        component-level-ac50748d80de */
     allChunks: true,
   });
 
