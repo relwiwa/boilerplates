@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 const webpackParts = require('./webpack.parts');
@@ -17,7 +16,8 @@ const webpackConfigProd = webpackMerge([
     },
   }),
   webpackParts.setGlobalConstants({
-    // process.env.NODE_ENV needs to be set to production for React to remove plenty of error messages
+    /*  process.env.NODE_ENV needs to be set to production for React
+        to remove plenty of error messages */
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
     },

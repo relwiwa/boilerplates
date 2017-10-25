@@ -32,7 +32,7 @@ const webpackConfigCommon = webpackMerge([
         },
       }),
       new HtmlWebpackPlugin({
-        template: './index.html'
+        template: './index.html',
       }),
     ],
   },

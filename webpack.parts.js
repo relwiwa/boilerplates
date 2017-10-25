@@ -1,3 +1,4 @@
+const autoprefixer = require('autoprefixer');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -8,9 +9,9 @@ module.exports.autoprefixCSS = ({
   loader: 'postcss-loader',
   options: {
     plugins: () => ([
-      require('autoprefixer'),
+      autoprefixer,
     ]),
-  }
+  },
 });
 
 module.exports.devServer = () => ({
@@ -23,8 +24,8 @@ module.exports.devServer = () => ({
   },
 });
 
-module.exports.extractBundleChunks = (bundles) => ({
-  plugins: bundles.map((bundle) => (
+module.exports.extractBundleChunks = bundles => ({
+  plugins: bundles.map(bundle => (
     new webpack.optimize.CommonsChunkPlugin(bundle)
   )),
 });
@@ -32,7 +33,7 @@ module.exports.extractBundleChunks = (bundles) => ({
 module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
   const plugin = new ExtractTextPlugin({
     filename: '[name].[contenthash].css',
-    allChunks: true
+    allChunks: true,
   });
 
   return {
@@ -48,7 +49,7 @@ module.exports.extractSCSS = ({ include, exclude, use } = {}) => {
         },
       ],
     },
-    plugins: [ plugin ],
+    plugins: [plugin],
   };
 };
 
@@ -79,10 +80,10 @@ module.exports.loadImages = ({ include, exclude, options } = {}) => ({
             loader: 'url-loader',
             options,
           },
-          'image-webpack-loader'
+          'image-webpack-loader',
         ],
       },
-    ], 
+    ],
   },
 });
 
@@ -93,6 +94,7 @@ module.exports.loadJavascript = ({ include, exclude } = {}) => ({
         test: /\.jsx?$/,
         use: 'babel-loader',
         exclude,
+        include,
       },
     ],
   },
@@ -113,8 +115,8 @@ module.exports.minifyCSS = () => ({
         discardComments: { removeAll: true },
         safe: true,
       },
-      canPrint: true
-    }),                
+      canPrint: true,
+    }),
   ],
 });
 
@@ -129,9 +131,7 @@ module.exports.minifyJavascript = () => ({
 
 module.exports.setGlobalConstants = (globalConstants = {}) => ({
   plugins: [
-    new webpack.DefinePlugin(
-      globalConstants
-    ),
+    new webpack.DefinePlugin(globalConstants),
   ],
 
 });
